@@ -85,6 +85,7 @@ def find_boss_position(name):
     for i, boss in enumerate(BOSSES):
         if name == boss:
             return i
+    return 0
 
 def get_ctime(filename):
     """
