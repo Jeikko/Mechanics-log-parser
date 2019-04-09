@@ -36,8 +36,10 @@ has its own log.
 
 
 Requirements/dependencies
+
 ♦ Unicode_table.py: this script is imported and used to draw the table around
 the data
+
 ♦ pyperclip: automatically copies the table in the clipboard. Not required.
 
 
