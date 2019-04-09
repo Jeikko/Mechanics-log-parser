@@ -6,18 +6,19 @@ The arcdps mechanics plugin records a log of all mechanics happening
 throughout a raid run. This script loads it, looks for the information related
 to a given boss and puts it in a table made from Unicode characters, so it can
 be pasted on Discord using the code (```code```) environment. If the pyperclip
-Python module is available, the code (including the ```) will directly be
+Python module is available, the code (including the \`\`\`) will directly be
 copied into the clipboard.
 
 
 How to use this script
+
 There are three ways of loading a log:
 
-♦ in the Windows explorer, drop the log on the python script
+♦ in the Windows explorer, drop the log on mechanics_log.py
 
-♦ launch the script, enter the log name
+♦ launch mechanics_log.py, enter the log name
 
-♦ launch the script and simply hit return. The latest log will be parsed
+♦ launch mechanics_log.py and simply hit return. The latest log will be parsed
 
 Note: as of 2019-04-09, the plugin creates the log file only after the gw2
 client is closed. This can be overriden by opening the mechanics chart window
