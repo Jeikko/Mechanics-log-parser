@@ -51,3 +51,7 @@ the data
 
 The mechanics log plugin can be found at
 http://martionlabs.com/arcdps-mechanics-log-plugin/
+
+
+
+If you have comments, questions or remarks, please contact me on Discord (Aikan#4668) or in-game (Aikan.5674)
