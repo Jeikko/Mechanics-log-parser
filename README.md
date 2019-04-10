@@ -35,6 +35,9 @@ player was downed on a specific encounter. It should be possible to circumvent
 this by hitting "export" and "reset" between different bosses, so each of them
 has its own log.
 
+On first run, the script will ask for the gw2 documents directory. The directory
+will be saved for subsequent runs.
+
 
 Requirements/dependencies
 
