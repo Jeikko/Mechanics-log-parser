@@ -30,9 +30,14 @@ attempts. It should tell if players only came for some attempts.
 
 It also records a single "was downed" number for all of the fights, so
 if different bosses are fought, there is no way of telling how many times a
-player was downed on a specific encounter. It should be possible to circumvent
-this by hitting "export" and "reset" between different bosses, so each of them
-has its own log.
+player was downed on a specific encounter.
+
+It seems that hitting "export" and "reset" between different bosses so each of
+the bosses has its own log breaks the addon, and it stops recording some 
+mechanics. Avoid it for now.
+
+On first run, the script will ask for the gw2 documents directory. The directory
+will be saved for subsequent runs.
 
 
 Requirements/dependencies
@@ -47,19 +52,18 @@ http://martionlabs.com/arcdps-mechanics-log-plugin/
 
 import os
 import sys
+import configparser
 try:
     import pyperclip
     print("Warning: this script will erase the clipboard content\n")
     clipboard = True
 except ModuleNotFoundError:
-    print("With the pyperclip module installed, this script copies the table in the clipboard so it can directly be pasted in Discord\n")
+    print("With the pyperclip module installed, this script copies the table" +
+    " in the clipboard\nso it can directly be pasted in Discord\n")
     clipboard = False
 
 from Unicode_table import make_table
 
-# log directory
-DIR = "{}/Documents/Guild Wars 2/addons/arcdps/arcdps.mechanics".format(
-    os.environ["USERPROFILE"])
 # expected csv headers
 HEADERS = [
     'Player Name', 'Account Name',
@@ -87,6 +91,31 @@ def find_boss_position(name):
             return i
     return 0
 
+def get_log_directory():
+    """
+    Look for the log directory in a config file, create it if needed
+    """
+    try:
+        config = configparser.ConfigParser()
+        config.read("mechanics_log_settings.ini")
+        return config["Config"]["LogDirectory"]
+    except KeyError:
+        while True:
+            dir = input("Please enter the arcdps mechanics log folder, " + 
+            "for example\nC:\\Users\\Username\\Documents\\GUILD WARS 2" +
+            "\\addons\\arcdps\\arcdps.mechanics\n> ").strip()
+            if os.path.exists(dir):
+                print()
+                break
+            else:
+                print("The directory doesn't exist\n")
+        config = configparser.ConfigParser()
+        config["Config"] = {"LogDirectory": dir}
+        with open("mechanics_log_settings.ini", 'w') as configfile:
+            config.write(configfile)
+        return dir
+
+
 def get_ctime(filename):
     """
     Return the creation time of a file
@@ -107,7 +136,8 @@ def load_log(name):
     assert f.readline().strip().split(',') == HEADERS
     data = []
     for line in f.readlines():
-            data.append({key: elem for key, elem in zip(HEADERS, line.strip().split(','))})
+        data.append({key: elem for key, elem in zip(
+                                HEADERS, line.strip().split(','))})
     f.close()
     return data
 
@@ -134,7 +164,8 @@ def process_log(file):
         print("More than one boss fight is registered in this log.")
         for k, v in d_names.items():
             print("{:>2}: {}".format(k, v))
-        choice = input("For which boss should the mechanics table be built?  ")
+        choice = input("Type the number of the boss for which " + 
+            "the mechanics table should be built: ")
         boss_name = d_names[int(choice)]
 
     # get the list of mechanics to monitor
@@ -237,15 +268,19 @@ def process_log(file):
     else:
         caption += "♦ No failed mechanic recorded\n"
     caption += "♦ Others:\n"
-    caption += "({}): pulls (might not be accurate)\n".format(current_index)
+    caption += ("({}): number of attempts" + 
+        " (might not be accurate)\n").format(current_index)
     
     return "```\nMechanics log for {}:\n\n{}\n{}```".format(
         boss_name, table, caption)
 
 if __name__ == "__main__":
-    os.chdir(DIR)
     if len(sys.argv) == 1:
-        log = input("Type the name of the file to parse.\nIf empty, the script will parse the most recent log.\n")
+        dir = get_log_directory()
+        os.chdir(dir)
+        log = input("Type the name of the file to parse" +
+        " (including the .csv, but the directory isn't needed)\n" + 
+        "If empty, the script will parse the most recent log.\n> ")
         if log == "":
             log = find_latest_log()
         if log not in os.listdir():
@@ -257,8 +292,12 @@ if __name__ == "__main__":
     table = process_log(log)
     if clipboard:
         pyperclip.copy(table)
-    print(table.strip("```"))
-    input("Hit return to close")
+    else:
+        print("Reminder: right-clicking in a Windows terminal copies" + 
+            " the selected text in the clipboard") 
+    print()
+    print(table)
+    input("\nHit return to close")
 
 
 
