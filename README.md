@@ -33,11 +33,10 @@ If the log contains the data for several bosses, the script will ask which
 boss fights should be processed. It is possible to answer with more than one
 fight, using commas (1, 2, 4 for example). The bosses will be processed one
 after the other.
-If the win32api module is not installed, the script will move on to the next
-boss after return has been used.
-If it is installed, the script will move on after a specific key (set in
-mechanics_log_settings.ini, using virtual key codes from
-https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes )
+- If the win32api module is not available, the script will move on to the next
+boss after the user has hit return in the Python window.
+- If it is available, the script will move on after a specific key (set in
+mechanics_log_settings.ini, using [virtual key codes](https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes))
 has been pressed and released. The default value for this key is "V", so that
 pasting the log in Discord using ctrl+V automatically triggers the next log
 processing.
@@ -71,8 +70,11 @@ the data
 - win32api/pywin32: used for a faster processing of logs for different bosses.
 It can be installed with ```pip install pywin32```, and is not required.
 
-The mechanics log plugin can be found at
-http://martionlabs.com/arcdps-mechanics-log-plugin/
 
-If you have comments, questions, remarks or suggestions about this script,
+### Links
+- The mechanics log plugin can be found at
+http://martionlabs.com/arcdps-mechanics-log-plugin/
+- The list of virtual key codes can be found at
+https://docs.microsoft.com/en-us/windows/desktop/inputdev/virtual-key-codes
+- If you have comments, questions, remarks or suggestions about this script,
 please contact me on Discord (Aikan#4668) or in-game (Aikan.5674).
