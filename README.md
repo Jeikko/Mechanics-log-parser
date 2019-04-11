@@ -69,7 +69,7 @@ mechanics. Avoid it for now.
 the data
 - pyperclip: automatically copies the table in the clipboard. Not required.
 - win32api/pywin32: used for a faster processing of logs for different bosses.
-It can be installed with pip install pywin32. Not required.
+It can be installed with ```pip install pywin32```, and is not required.
 
 The mechanics log plugin can be found at
 http://martionlabs.com/arcdps-mechanics-log-plugin/
